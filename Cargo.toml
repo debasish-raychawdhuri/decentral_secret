@@ -1,0 +1,11 @@
+[package]
+name = "reed_solomon"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+linearalgebra={git = "https://github.com/debasish-raychawdhuri/linearalgebra-rust.git", branch="master" }
+proptest = "1.1.0"
+urandom = "0.1.1"
