@@ -169,7 +169,6 @@ mod test {
     use super::*;
     use std::fs::remove_file;
     use std::io::Write;
-    use std::path::Path;
 
     #[test]
     fn test_encode_decode() -> Result<(), Box<dyn Error>> {
