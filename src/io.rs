@@ -1,10 +1,10 @@
+use proptest::prelude::*;
+use serde::{Deserialize, Serialize};
 use std::{
     error::Error,
-    fs::File,
+    fs::{remove_file, File},
     io::{Read, Result as IOResult, Write},
 };
-
-use serde::{Deserialize, Serialize};
 
 use crate::shamir_secret::Polynomial;
 
@@ -164,63 +164,59 @@ pub fn decode(paths: &[String], output_path: String) -> Result<(), Box<dyn Error
 
     Ok(())
 }
-#[cfg(test)]
-mod test {
-    use super::*;
-    use std::fs::remove_file;
-    use std::io::Write;
+
+proptest! {
 
     #[test]
-    fn test_encode_decode() -> Result<(), Box<dyn Error>> {
+    fn test_encode_decode(data:Vec<u8>) {
         let mut file = File::create("test_file")?;
-        let data = vec![0u8; 1000];
         file.write_all(&data)?;
         file.flush()?;
         file.sync_all()?;
-        encode("test_file".to_string(), 5, 3)?;
+        encode("test_file".to_string(), 5, 3).unwrap();
         let paths = vec![
             "test_file_1".to_string(),
             "test_file_2".to_string(),
             "test_file_3".to_string(),
             "test_file_4".to_string(),
         ];
-        decode(&paths, "test_file_decoded".to_string())?;
+        decode(&paths, "test_file_decoded".to_string()).unwrap();
         let mut file = File::open("test_file_decoded")?;
-        let mut data_decoded = vec![0u8; 1000];
-        file.read_exact(&mut data_decoded)?;
+        let mut data_decoded = Vec::new();
+        file.read_to_end(&mut data_decoded)?;
+
         assert_eq!(data, data_decoded);
         remove_file("test_file")?;
         remove_file("test_file_decoded")?;
         for i in 1..=5 {
             remove_file(format!("test_file_{}", i))?;
         }
-        Ok(())
+
     }
 
     #[test]
-    fn test_encode_decode_2() -> Result<(), Box<dyn Error>> {
+    fn test_encode_decode_2(data:Vec<u8>){
         let mut file = File::create("test_2_file")?;
-        let data = vec![0u8; 1000];
         file.write_all(&data)?;
         file.flush()?;
         file.sync_all()?;
-        encode("test_2_file".to_string(), 5, 3)?;
+        encode("test_2_file".to_string(), 5, 3).unwrap();
         let paths = vec![
             "test_2_file_1".to_string(),
             "test_2_file_2".to_string(),
             "test_2_file_3".to_string(),
             "test_2_file_5".to_string(),
         ];
-        decode(&paths, "test_2_file_decoded".to_string())?;
+        decode(&paths, "test_2_file_decoded".to_string()).unwrap();
         let mut file = File::open("test_2_file_decoded")?;
-        let mut data_decoded = vec![0u8; 1000];
-        file.read_exact(&mut data_decoded)?;
+        let mut data_decoded = Vec::new();
+        file.read_to_end(&mut data_decoded)?;
+
         assert_eq!(data, data_decoded);
         remove_file("test_2_file")?;
         remove_file("test_2_file_decoded")?;
         for i in 1..=5 {
             remove_file(format!("test_2_file_{}", i))?;
         }
-        Ok(())
     }
 }
