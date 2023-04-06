@@ -202,7 +202,6 @@ proptest! {
         file.sync_all()?;
         encode("test_2_file".to_string(), 5, 3).unwrap();
         let paths = vec![
-            "test_2_file_1".to_string(),
             "test_2_file_2".to_string(),
             "test_2_file_3".to_string(),
             "test_2_file_5".to_string(),
