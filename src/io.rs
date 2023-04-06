@@ -151,13 +151,15 @@ pub fn decode(paths: &[String], output_path: String) -> Result<(), Box<dyn Error
         let output_data = data.to_le_bytes();
         output_file.write_all(&output_data)?;
     }
+
     if spare_bytes != 0 {
         for i in 0..header.min_shares {
             evaluations[i] = iterators[i].next().ok_or(0).unwrap()?;
-            let data = Polynomial::interpolate_from_langrange_basis(&evaluations, &lagrange_basis);
-            let output_data = data.to_le_bytes();
-            output_file.write_all(&output_data[0..spare_bytes])?;
         }
+        let data = Polynomial::interpolate_from_langrange_basis(&evaluations, &lagrange_basis);
+
+        let output_data = data.to_le_bytes();
+        output_file.write_all(&output_data[0..spare_bytes])?;
     }
 
     Ok(())
