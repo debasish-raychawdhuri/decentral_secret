@@ -1,7 +1,7 @@
 use std::{
     error::Error,
     fs::File,
-    io::{ErrorKind, Read, Result as IOResult, Write},
+    io::{Read, Result as IOResult, Write},
 };
 
 use serde::{Deserialize, Serialize};

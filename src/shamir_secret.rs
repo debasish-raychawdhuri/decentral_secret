@@ -32,6 +32,7 @@ impl Polynomial {
             .collect()
     }
 
+    #[allow(unused)]
     pub fn evaluate_at_points(&self, points: &[u64]) -> Vec<(u64, u64)> {
         points
             .iter()
@@ -77,6 +78,7 @@ impl Polynomial {
             .fold(0u64, |a, b| ring.add(&a, &b))
     }
 
+    #[allow(unused)]
     pub fn interpolate_constant_term(values: &[(u64, u64)]) -> u64 {
         let ring = BinaryField::new();
         values
