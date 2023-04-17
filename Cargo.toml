@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 bincode = "1.3.3"
 clap = { version = "4.2.1", features = ["derive", "cargo"] }
+criterion = "0.4.0"
 linearalgebra={git = "https://github.com/debasish-raychawdhuri/linearalgebra-rust.git", branch="master" }
 proptest = "1.1.0"
 rand = "0.8.5"

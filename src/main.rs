@@ -11,14 +11,14 @@ fn main() -> Result<(), Box<dyn Error>> {
         .subcommand(
             Command::new("encode")
                 .about("Encode into shares")
-                .arg(arg!(-f --datafile <VALUE> ).required(true))
+                .arg(arg!(-f --datafile <VALUE> "The input datafile to create shares of").required(true))
                 .arg(
-                    arg!(-m --min_shares <VALUE> )
+                    arg!(-m --min_shares <VALUE> "The minimum number of shares required to recover the datafile")
                         .required(true)
                         .value_parser(builder::RangedU64ValueParser::<usize>::new()),
                 )
                 .arg(
-                    arg!(-s --shares <VALUE> )
+                    arg!(-s --shares <VALUE> "The number of shares to create")
                         .required(true)
                         .value_parser(builder::RangedU64ValueParser::<usize>::new()),
                 ),
@@ -26,9 +26,10 @@ fn main() -> Result<(), Box<dyn Error>> {
         .subcommand(
             Command::new("decode")
                 .about("Decode shares into datafile")
-                .arg(arg!(-f --datafile <VALUE> ).required(true))
+                .arg(arg!(-f --datafile <VALUE> "The output datafile").required(true))
                 .arg(Arg::new("SHARES").num_args(1..)),
         )
+        .subcommand_required(true)
         .get_matches();
 
     if let Some(sub_matches) = matches.subcommand_matches("encode") {

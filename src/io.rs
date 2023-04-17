@@ -1,5 +1,6 @@
 use proptest::prelude::*;
 use serde::{Deserialize, Serialize};
+#[allow(unused_imports)]
 use std::{
     error::Error,
     fs::{remove_file, File},
